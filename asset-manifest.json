@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/name-gatherer/static/css/main.51b4a7f7.css",
+    "main.js": "/name-gatherer/static/js/main.616db269.js",
+    "index.html": "/name-gatherer/index.html",
+    "main.51b4a7f7.css.map": "/name-gatherer/static/css/main.51b4a7f7.css.map",
+    "main.616db269.js.map": "/name-gatherer/static/js/main.616db269.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.51b4a7f7.css",
+    "static/js/main.616db269.js"
+  ]
+}
