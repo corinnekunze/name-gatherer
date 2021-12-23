@@ -27,10 +27,11 @@ export default class Main extends React.PureComponent<{}, MainState> {
     if (!file) {
       return { valid: false };
     }
-    if (file.type === 'text/csv') {
-      return { valid: true };
-    }
-    return { valid: false, errorMessage: 'File is not a valid CSV'};
+    return { valid: true };
+    // if (file.type === 'text/csv') {
+    //   return { valid: true };
+    // }
+    // return { valid: false, errorMessage: 'File is not a valid CSV'};
   }
 
   render = () => {
