@@ -11,6 +11,15 @@ export const buildMemberRow = (result: CSVResult) => {
   }
 }
 
+const determinePartnerEmail = (result: CSVResult): string => {
+  const mainEmailName = result.Email.split('@')[0];
+  const partnerEmailName = result['Partner Email'].split('@')[0]
+  if (partnerEmailName.includes(mainEmailName)) {
+    return result.Email;
+  }
+  return result['Partner Email'];
+}
+
 const buildPartnerRow = (result: CSVResult) => {
   const partnerNamePieces = findNamePieces(result['Partner Member'])
   const {
@@ -22,7 +31,7 @@ const buildPartnerRow = (result: CSVResult) => {
   } = result;
   return {
     ...otherResults,
-    Email: result['Partner Email'],
+    Email: determinePartnerEmail(result),
     Member: result['Partner Member'],
     "Partner Member": result.Member,
     "First Name": partnerNamePieces.firstName,
@@ -30,7 +39,7 @@ const buildPartnerRow = (result: CSVResult) => {
   }
 }
 
-const formatSingleRow = (result: CSVResult) => {
+export const formatSingleRow = (result: CSVResult): FormattedCSVResult[] => {
   const memberRecord = buildMemberRow(result);
   if (result['Partner Member'].length !== 0) {
     const partnerRecord = buildPartnerRow(result)
