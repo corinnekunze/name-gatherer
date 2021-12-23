@@ -1,3 +1,6 @@
+/**
+ * Creates a download for the user immediately upon call.
+ */
 export const download = (path: string, filename: string) => {
   // Create a new link
   const anchor = document.createElement('a');

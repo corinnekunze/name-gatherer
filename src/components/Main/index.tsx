@@ -17,9 +17,9 @@ export default class Main extends React.PureComponent<{}, MainState> {
   handleSubmit = async (): Promise<void> => {
     const { file } = this.state;
     const resultsAsCsv = await CSVFormatter.parseAndFormat(file!)
-    const fileBlob = new Blob([resultsAsCsv], {type: 'text/csv'});
-    const url = URL.createObjectURL(fileBlob);
-    download(url, 'formattedCsv.csv');
+    const newFile = new File([resultsAsCsv], 'gatheredNames.csv', {type: 'text/csv'});
+    const url = URL.createObjectURL(newFile);
+    download(url, newFile.name);
   }
 
   determineFormValid = (): { valid: boolean; errorMessage?: string } => {

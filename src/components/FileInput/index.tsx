@@ -13,11 +13,11 @@ export default class FileInput extends React.PureComponent<FileInputProps, FileI
 
   render(): React.ReactNode {
     return (
-      <input 
-        type="file" 
-        data-testid="fileInput" 
-        className="form-control-file" 
-        id="csvFileUpload" 
+      <input
+        type="file"
+        data-testid="fileInput"
+        className="form-control-file"
+        id="csvFileUpload"
         onChange={this.handleFileChange} />
     )
   }
