@@ -1,4 +1,5 @@
 import Papa from 'papaparse';
+import CSVFormatterError from './error';
 import { formatRows } from './rowFormatter';
 import { CSVParseResults } from './types';
 export default class CSVFormatter {
@@ -17,6 +18,9 @@ export default class CSVFormatter {
 
   private static parse = async (file: File) => {
     const results = await this.parseFile(file);
+    if (results.errors.length) {
+      throw new CSVFormatterError('Something went wrong')
+    }
     return formatRows(results.data);
   };
 

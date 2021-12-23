@@ -1,5 +1,6 @@
 import React from 'react';
 import CSVFormatter from '../../CSVFormatter';
+import CSVFormatterError from '../../CSVFormatter/error';
 import { download } from '../../utils/download';
 import FileInput from '../FileInput';
 import { MainState } from './types'
@@ -8,30 +9,42 @@ export default class Main extends React.PureComponent<{}, MainState> {
   constructor(props: {}) {
     super(props)
     this.state = {
+      parseError: false,
     }
   }
   handleSetFile = (file: File) => {
-    this.setState({ file });
+    this.setState({ file, parseError: false });
   }
 
   handleSubmit = async (): Promise<void> => {
     const { file } = this.state;
-    const resultsAsCsv = await CSVFormatter.parseAndFormat(file!)
-    const newFile = new File([resultsAsCsv], 'gatheredNames.csv', {type: 'text/csv'});
-    const url = URL.createObjectURL(newFile);
-    download(url, newFile.name);
+    try {
+      const resultsAsCsv = await CSVFormatter.parseAndFormat(file!)
+      const newFile = new File([resultsAsCsv], 'gatheredNames.csv', {type: 'text/csv'});
+      const url = URL.createObjectURL(newFile);
+      download(url, newFile.name);
+    } catch (error: any) {
+      if (error.name === CSVFormatterError.NAME) {
+        this.setState({ parseError: true })
+        return;
+      }
+      throw error;
+    }
   }
 
   determineFormValid = (): { valid: boolean; errorMessage?: string } => {
-    const { file } = this.state;
+    const { file, parseError } = this.state;
     if (!file) {
       return { valid: false };
     }
+
+    if (!!parseError) {
+      return {
+        valid: false,
+        errorMessage: 'Something went wrong when parsing the file. Ensure the file is a valid CSV file.'
+      };
+    }
     return { valid: true };
-    // if (file.type === 'text/csv') {
-    //   return { valid: true };
-    // }
-    // return { valid: false, errorMessage: 'File is not a valid CSV'};
   }
 
   render = () => {
