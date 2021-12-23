@@ -1,5 +1,6 @@
 import Papa from 'papaparse';
 import { CSVParseResults } from './types';
+import { findNamePieces } from './utilities';
 export default class CSVFormatter {
   static parseAndFormat = async (file: File) => {
     const results = await this.parse(file);
@@ -15,13 +16,14 @@ export default class CSVFormatter {
   };
   
   private static formatWithKnownRows = (results: CSVParseResults) => {
-    return results.data.map((result) => (
-      {
-        "Email": result.Email, 
-        "First Name": result.Member.split(' ')[0],
-        "Member": result.Member,
+    return results.data.map((result) => {
+      const namePieces = findNamePieces(result.Member)
+      return {
+        ...result,
+        "First Name": namePieces.firstName,
+        "Last Name": namePieces.lastName
       }
-    ));
+    });
   };
 
   private static parse = async (file: File) => {
