@@ -1,1 +1,2 @@
-declare module 'papaparse'
+declare module 'papaparse';
+declare module 'full-name-splitter';

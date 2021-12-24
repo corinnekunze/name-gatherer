@@ -67,6 +67,22 @@ describe('formatSingleRow', () => {
     'Partner Member': 'Sally Bob'
 
   }
+
+  test('it formats first and last name correctly', () => {
+    const result = {
+      ...baseResult,
+      Member: 'Kirk E McVay',
+    }
+    expect(formatSingleRow(result)[0]["First Name"]).toEqual('Kirk E');
+  })
+
+  test('it removes prefix names', () => {
+    const result = {
+      ...baseResult,
+      Member: 'Dr. Spock Spaceman',
+    }
+    expect(formatSingleRow(result)[0]["First Name"]).toEqual('Spock');
+  })
   describe('when partner result', () => {
     test('it will remove 1 in partner email if they share the email', () => {
       const result = {
