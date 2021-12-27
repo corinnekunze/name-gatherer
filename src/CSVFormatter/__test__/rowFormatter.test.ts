@@ -73,7 +73,8 @@ describe('formatSingleRow', () => {
       ...baseResult,
       Member: 'Kirk E McVay',
     }
-    expect(formatSingleRow(result)[0]["First Name"]).toEqual('Kirk E');
+    expect(formatSingleRow(result)[0]["First Name"]).toEqual('Kirk');
+    expect(formatSingleRow(result)[0]["Last Name"]).toEqual('McVay');
   })
 
   test('it removes prefix names', () => {
@@ -82,6 +83,7 @@ describe('formatSingleRow', () => {
       Member: 'Dr. Spock Spaceman',
     }
     expect(formatSingleRow(result)[0]["First Name"]).toEqual('Spock');
+    expect(formatSingleRow(result)[0]["Last Name"]).toEqual('Spaceman');
   })
   describe('when partner result', () => {
     test('it will remove 1 in partner email if they share the email', () => {
