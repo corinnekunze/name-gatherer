@@ -85,6 +85,15 @@ describe('formatSingleRow', () => {
     expect(formatSingleRow(result)[0]["First Name"]).toEqual('Spock');
     expect(formatSingleRow(result)[0]["Last Name"]).toEqual('Spaceman');
   })
+
+  test('it returns only first name when last name is not provided', () => {
+    const result = {
+      ...baseResult,
+      Member: 'Lisa',
+    }
+    expect(formatSingleRow(result)[0]["First Name"]).toEqual('Lisa');
+    expect(formatSingleRow(result)[0]["Last Name"]).toEqual('');
+  })
   describe('when partner result', () => {
     test('it will remove 1 in partner email if they share the email', () => {
       const result = {
