@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/name-gatherer/static/css/main.51b4a7f7.css",
-    "main.js": "/name-gatherer/static/js/main.a1a0770d.js",
+    "main.js": "/name-gatherer/static/js/main.7d3e2ad0.js",
     "index.html": "/name-gatherer/index.html",
     "main.51b4a7f7.css.map": "/name-gatherer/static/css/main.51b4a7f7.css.map",
-    "main.a1a0770d.js.map": "/name-gatherer/static/js/main.a1a0770d.js.map"
+    "main.7d3e2ad0.js.map": "/name-gatherer/static/js/main.7d3e2ad0.js.map"
   },
   "entrypoints": [
     "static/css/main.51b4a7f7.css",
-    "static/js/main.a1a0770d.js"
+    "static/js/main.7d3e2ad0.js"
   ]
 }
