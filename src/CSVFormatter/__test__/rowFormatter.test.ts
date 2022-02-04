@@ -24,8 +24,8 @@ describe('rowFormatter', () => {
       const { 'Partner Email': partnerEmail, ...joeFields } = results[0]
       const { 'Partner Email': anotherPartner, ...anotherFields } = results[1]
       const output = [
-        { ...joeFields, 'First Name': 'Bob', 'Last Name': 'Joe' },
-        { ...anotherFields, 'First Name': 'Another', 'Last Name': 'Member' }
+        { ...joeFields, 'First Name': 'Bob', 'Last Name': 'Joe', 'emailModified': '' },
+        { ...anotherFields, 'First Name': 'Another', 'Last Name': 'Member', 'emailModified': '' }
       ]
       expect(formatRows(results)).toEqual(output)
     })
@@ -37,16 +37,17 @@ describe('rowFormatter', () => {
       const { 'Partner Email': partnerEmail, ...joeFields } = relevantResults[0]
       const { 'Partner Email': anotherPartner, ...anotherFields } = relevantResults[1]
       const output = [
-        { ...joeFields, 'First Name': 'Bob', 'Last Name': 'Joe' },
+        { ...joeFields, 'First Name': 'Bob', 'Last Name': 'Joe', 'emailModified': '' },
         {
           'Big Red Numbers': results[0]['Big Red Numbers'],
           Member: 'Sally Joe',
           'Partner Member': 'Bob Joe',
           'First Name': 'Sally',
           'Last Name': 'Joe',
-          Email: 'sallyjoe@email.com'
+          Email: 'sallyjoe@email.com',
+          'emailModified': ''
         },
-        { ...anotherFields, 'First Name': 'Another', 'Last Name': 'Member' }
+        { ...anotherFields, 'First Name': 'Another', 'Last Name': 'Member', 'emailModified': '' }
       ]
       expect(formatRows(relevantResults)).toEqual(output)
     })
@@ -112,7 +113,8 @@ describe('formatSingleRow', () => {
           Email,
           'Partner Member': mainPartner,
           'First Name': 'Joe',
-          'Last Name': 'Bob'
+          'Last Name': 'Bob',
+          'emailModified': '',
         },
         {
           'Big Red Numbers': result['Big Red Numbers'],
@@ -120,7 +122,8 @@ describe('formatSingleRow', () => {
           'First Name': 'Sally',
           'Last Name': 'Bob',
           'Partner Member': result.Member,
-          'Member': result['Partner Member']
+          'Member': result['Partner Member'],
+          'emailModified': '+',
         }
       ]
       expect(formatSingleRow(result)).toEqual(outcome)
@@ -143,7 +146,8 @@ describe('formatSingleRow', () => {
           Email,
           'Partner Member': mainPartner,
           'First Name': 'Joe',
-          'Last Name': 'Bob'
+          'Last Name': 'Bob',
+          'emailModified': '',
         },
         {
           'Big Red Numbers': result['Big Red Numbers'],
@@ -151,7 +155,74 @@ describe('formatSingleRow', () => {
           'First Name': 'Sally',
           'Last Name': 'Bob',
           'Partner Member': result.Member,
-          'Member': result['Partner Member']
+          'Member': result['Partner Member'],
+          'emailModified': '+',
+        }
+      ]
+      expect(formatSingleRow(result)).toEqual(outcome)
+    })
+
+    test('it will add plus to emailModified column if partner email modified', () => {
+      const result = {
+        ...baseResult,
+        'Partner Email': 'joebob+@email.com',
+      }
+      const {
+        'Partner Email': partnerEmail,
+        'Partner Member': mainPartner,
+        Email,
+        ...rest
+      } = result;
+      const outcome = [
+        {
+          ...rest,
+          Email,
+          'Partner Member': mainPartner,
+          'First Name': 'Joe',
+          'Last Name': 'Bob',
+          'emailModified': '',
+        },
+        {
+          'Big Red Numbers': result['Big Red Numbers'],
+          Email,
+          'First Name': 'Sally',
+          'Last Name': 'Bob',
+          'Partner Member': result.Member,
+          'Member': result['Partner Member'],
+          'emailModified': '+',
+        }
+      ]
+      expect(formatSingleRow(result)).toEqual(outcome)
+    })
+
+    test('it will not add plus plus to emailModified column if partner email is not modified', () => {
+      const result = {
+        ...baseResult,
+        'Partner Email': baseResult.Email,
+      }
+      const {
+        'Partner Email': partnerEmail,
+        'Partner Member': mainPartner,
+        Email,
+        ...rest
+      } = result;
+      const outcome = [
+        {
+          ...rest,
+          Email,
+          'Partner Member': mainPartner,
+          'First Name': 'Joe',
+          'Last Name': 'Bob',
+          'emailModified': '',
+        },
+        {
+          'Big Red Numbers': result['Big Red Numbers'],
+          Email,
+          'First Name': 'Sally',
+          'Last Name': 'Bob',
+          'Partner Member': result.Member,
+          'Member': result['Partner Member'],
+          'emailModified': '',
         }
       ]
       expect(formatSingleRow(result)).toEqual(outcome)

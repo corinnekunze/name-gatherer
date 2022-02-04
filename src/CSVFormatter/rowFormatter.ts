@@ -7,35 +7,39 @@ export const buildMemberRow = (result: CSVResult) => {
   return  {
     ...restResult,
     "First Name": namePieces.firstName,
-    "Last Name": namePieces.lastName
+    "Last Name": namePieces.lastName,
+    emailModified: ''
   }
 }
 
-const determinePartnerEmail = (result: CSVResult): string => {
+const determinePartnerEmail = (result: CSVResult): { partnerEmail: string; isModified: boolean } => {
   const mainEmailName = result.Email.split('@')[0];
   const partnerEmailName = result['Partner Email'].split('@')[0]
   if (partnerEmailName.includes(mainEmailName)) {
-    return result.Email;
+    const isModified = partnerEmailName !== mainEmailName;
+    return { partnerEmail: result.Email, isModified };
   }
-  return result['Partner Email'];
+  return { partnerEmail: result['Partner Email'], isModified: false };
 }
 
 const buildPartnerRow = (result: CSVResult) => {
   const partnerNamePieces = findNamePieces(result['Partner Member'])
+  const {partnerEmail, isModified} = determinePartnerEmail(result)
   const {
     Member,
     Email,
-    'Partner Member': partnerMember,
-    'Partner Email': partnerEmail,
+    'Partner Member': partnerMemberAlias,
+    'Partner Email': partnerEmailAlias,
     ...otherResults
   } = result;
   return {
     ...otherResults,
-    Email: determinePartnerEmail(result),
+    Email: partnerEmail,
     Member: result['Partner Member'],
     "Partner Member": result.Member,
     "First Name": partnerNamePieces.firstName,
-    "Last Name": partnerNamePieces.lastName
+    "Last Name": partnerNamePieces.lastName,
+    emailModified: isModified ? '+' : ''
   }
 }
 
