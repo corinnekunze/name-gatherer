@@ -5,11 +5,11 @@ export type CSVParseResults = {
 }
 
 export type CSVResult = {
-  'Email': string;
-  'Member': string;
+  'Primary Email': string;
+  'Primary Member': string;
   'Partner Member': string;
   'Partner Email': string;
-  'Big Red Numbers': string;
+  'BRN': string;
   // many more fields here
 }
 
